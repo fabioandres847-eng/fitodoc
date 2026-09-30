@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FitoDoc · Plagas y enfermedades</title>
+  <meta name="description" content="Identifica plagas y enfermedades de cultivos por foto o síntomas y recibe tratamientos.">
+  <meta name="theme-color" content="#2f6b3a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><img src="icon.svg" alt="" width="32" height="32"><span>FitoDoc</span></div>
+    <span id="ia-badge" class="badge">Comprobando IA…</span>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="foto" aria-selected="true">📷 Foto</button>
+    <button role="tab" data-tab="sintomas" aria-selected="false">📝 Síntomas</button>
+    <button role="tab" data-tab="biblioteca" aria-selected="false">📚 Biblioteca</button>
+    <button role="tab" data-tab="historial" aria-selected="false">🕘 Historial</button>
+  </nav>
+
+  <main>
+    <!-- FOTO -->
+    <section id="tab-foto" class="panel">
+      <h1>Diagnóstico por foto</h1>
+      <p class="hint">Toma la foto de cerca, con buena luz, mostrando la parte dañada (hoja por ambos lados, fruto, tallo o raíz).</p>
+      <details id="ajustes-ia" class="ajustes">
+        <summary id="ajustes-titulo">⚙️ Activar IA gratuita para fotos</summary>
+        <ol>
+          <li>Entra a <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> con tu cuenta de Google.</li>
+          <li>Toca <b>Create API key</b> (es gratis, no pide tarjeta).</li>
+          <li>Copia la clave y pégala aquí.</li>
+        </ol>
+        <label class="field">Clave de Gemini
+          <input id="gemini-key" type="password" autocomplete="off" placeholder="AIza...">
+        </label>
+        <div class="row">
+          <button class="primary" id="gemini-guardar">Guardar clave</button>
+          <button id="gemini-borrar">Borrar</button>
+        </div>
+        <p class="hint">La clave se guarda solo en este dispositivo. El plan gratuito tiene un límite diario de consultas.</p>
+      </details>
+      <p id="foto-aviso" class="aviso" hidden></p>
+      <label class="drop" id="drop">
+        <input type="file" id="foto-input" accept="image/*" capture="environment" hidden>
+        <img id="foto-preview" alt="" hidden>
+        <span id="drop-text">Toca para tomar o elegir una foto</span>
+      </label>
+      <label class="field">Cultivo o planta (opcional)
+        <select id="foto-cultivo" class="cultivo-select"></select>
+      </label>
+      <label class="field">¿Qué más notas? (opcional)
+        <textarea id="foto-notas" rows="2" placeholder="Ej.: empezó hace una semana, ha llovido mucho, las hojas de abajo están peor…"></textarea>
+      </label>
+      <button class="primary" id="foto-btn" disabled>Diagnosticar</button>
+      <div id="foto-result"></div>
+    </section>
+
+    <!-- SÍNTOMAS -->
+    <section id="tab-sintomas" class="panel" hidden>
+      <h1>Diagnóstico por síntomas</h1>
+      <p class="hint">Funciona sin internet. Marca lo que ves y, si quieres, descríbelo con tus palabras.</p>
+      <label class="field">Cultivo o planta
+        <select id="sint-cultivo" class="cultivo-select"></select>
+      </label>
+      <div id="sint-grupos"></div>
+      <label class="field">Descripción libre (opcional)
+        <textarea id="sint-texto" rows="3" placeholder="Ej.: manchas cafés con anillos en las hojas de abajo del tomate"></textarea>
+      </label>
+      <div class="row">
+        <button class="primary" id="sint-btn">Ver posibles causas</button>
+        <button id="sint-ia-btn" hidden>Consultar también a la IA</button>
+      </div>
+      <div id="sint-result"></div>
+    </section>
+
+    <!-- BIBLIOTECA -->
+    <section id="tab-biblioteca" class="panel" hidden>
+      <h1>Biblioteca</h1>
+      <input id="bib-buscar" type="search" placeholder="Buscar plaga, enfermedad o cultivo…">
+      <div id="bib-lista"></div>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section id="tab-historial" class="panel" hidden>
+      <h1>Historial</h1>
+      <p class="hint">Se guarda solo en este dispositivo.</p>
+      <div id="hist-lista"></div>
+    </section>
+  </main>
+
+  <footer class="nota">
+    Orientación de apoyo; no reemplaza la visita de un agrónomo. Antes de aplicar cualquier producto, verifica que esté registrado para tu cultivo en tu país, lee la etiqueta y usa equipo de protección.
+  </footer>
+
+  <template id="tpl-diag">
+    <article class="diag">
+      <header>
+        <div>
+          <h3 class="d-nombre"></h3>
+          <p class="d-cient"></p>
+        </div>
+        <span class="conf"></span>
+      </header>
+      <p class="d-tipo"></p>
+      <p class="d-desc"></p>
+      <details open><summary>🌱 Manejo cultural</summary><ul class="d-cultural"></ul></details>
+      <details><summary>🐞 Control biológico / orgánico</summary><ul class="d-bio"></ul></details>
+      <details><summary>🧪 Control químico (último recurso)</summary><ul class="d-quim"></ul></details>
+      <p class="d-prev"></p>
+    </article>
+  </template>
+
+  <script src="data/kb.js"></script>
+  <script src="data/ia.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

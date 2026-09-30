@@ -1,0 +1,11 @@
+{
+  "name": "FitoDoc · Plagas y enfermedades",
+  "short_name": "FitoDoc",
+  "description": "Identifica plagas y enfermedades de cultivos por foto o síntomas.",
+  "lang": "es",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f3",
+  "theme_color": "#2f6b3a",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
