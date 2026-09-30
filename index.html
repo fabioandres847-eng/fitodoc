@@ -9,7 +9,69 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+:root{--bg:#f6f8f3;--card:#fff;--ink:#1e2a1f;--muted:#5d6b5e;--line:#dbe3d6;--brand:#2f6b3a;--brand-2:#e6f0e3;--warn:#8a5a00;--warn-bg:#fff4dc;--bad:#a2322a;--bad-bg:#fde8e5}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#121712;--card:#1b221b;--ink:#e6ede4;--muted:#9fb09f;--line:#2e3a2e;--brand:#6fbf7d;--brand-2:#223322;--warn:#f0c46a;--warn-bg:#2e2616;--bad:#f09a90;--bad-bg:#3a1f1c}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#121712;--card:#1b221b;--ink:#e6ede4;--muted:#9fb09f;--line:#2e3a2e;--brand:#6fbf7d;--brand-2:#223322;--warn:#f0c46a;--warn-bg:#2e2616;--bad:#f09a90;--bad-bg:#3a1f1c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--brand);color:#fff;padding-top:max(12px,env(safe-area-inset-top))}
+.brand{display:flex;gap:8px;align-items:center;font-weight:700;font-size:1.2rem}
+.badge{font-size:.75rem;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.2)}
+.badge.on{background:#fff;color:#2f6b3a}
+.tabs{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{flex:1;white-space:nowrap;min-width:88px;border:0;background:none;padding:12px 6px;font:inherit;font-size:.9rem;color:var(--muted);border-bottom:3px solid transparent;cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--brand);border-color:var(--brand);font-weight:600}
+main{max-width:760px;margin:0 auto;padding:16px}
+h1{font-size:1.35rem;margin:.2em 0}
+h2{font-size:1rem;margin:1.2em 0 .4em;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.hint{color:var(--muted);margin-top:0}
+.field{display:block;margin:14px 0;font-weight:600;font-size:.9rem}
+select,textarea,input[type=search]{font-weight:400;display:block;width:100%;margin-top:6px;padding:10px 12px;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px}
+button{font:inherit;padding:12px 18px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button.primary{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+button:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.drop{display:flex;align-items:center;justify-content:center;min-height:200px;border:2px dashed var(--line);border-radius:14px;background:var(--card);cursor:pointer;overflow:hidden;text-align:center;color:var(--muted);padding:12px}
+.drop img{max-width:100%;max-height:360px;border-radius:8px}
+fieldset{border:1px solid var(--line);border-radius:12px;margin:12px 0;padding:8px 10px 10px;background:var(--card)}
+legend{font-weight:600;padding:0 6px}
+.chip{display:inline-flex;margin:4px 4px 0 0}
+.chip input{position:absolute;opacity:0}
+.chip span{padding:6px 10px;border:1px solid var(--line);border-radius:99px;font-size:.85rem;cursor:pointer}
+.chip input:checked+span{background:var(--brand);color:#fff;border-color:var(--brand)}
+.chip input:focus-visible+span{outline:2px solid var(--brand);outline-offset:2px}
+.diag{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:8px 0}
+.diag header{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.diag h3{margin:0;font-size:1.15rem}
+.d-cient{margin:0;font-style:italic;color:var(--muted);font-size:.9rem}
+.d-tipo{font-size:.85rem;color:var(--muted);margin:.4em 0}
+.conf{font-size:.75rem;white-space:nowrap;padding:3px 8px;border-radius:99px;background:var(--brand-2);color:var(--brand)}
+.conf[data-nivel=media]{background:var(--warn-bg);color:var(--warn)}
+.conf[data-nivel=baja]{background:var(--bad-bg);color:var(--bad)}
+details{border-top:1px solid var(--line);padding:6px 0}
+summary{cursor:pointer;font-weight:600;padding:4px 0}
+details ul{margin:.3em 0;padding-left:1.2em}
+.d-prev{font-size:.9rem;color:var(--muted);margin-bottom:0}
+.aviso{background:var(--warn-bg);color:var(--warn);padding:10px 12px;border-radius:10px}
+.alerta{background:var(--bad-bg);color:var(--bad);padding:10px 12px;border-radius:10px;font-weight:600}
+.obs{background:var(--brand-2);padding:10px 12px;border-radius:10px}
+.cargando{color:var(--muted);animation:p 1.2s infinite}
+@keyframes p{50%{opacity:.4}}
+.bib{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:8px 0;padding:4px 12px}
+.bib summary{display:flex;justify-content:space-between;gap:8px}
+.bib summary small{color:var(--muted);font-weight:400}
+.bib .diag{border:0;padding:0}
+.hist{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;margin:8px 0}
+.hist img{width:52px;height:52px;object-fit:cover;border-radius:8px}
+.hist small{display:block;color:var(--muted)}
+.nota{max-width:760px;margin:0 auto;padding:16px 16px 32px;color:var(--muted);font-size:.8rem}
+.ajustes{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 14px;margin:12px 0}
+.ajustes ol{padding-left:1.2em;margin:.4em 0}
+.ajustes a{color:var(--brand)}
+input[type=password]{display:block;width:100%;margin-top:6px;padding:10px 12px;font:inherit;font-weight:400;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px}
+.ok{background:var(--brand-2);color:var(--brand);padding:10px 12px;border-radius:10px}
+</style>
 </head>
 <body>
   <header class="top">
@@ -116,8 +178,952 @@
     </article>
   </template>
 
-  <script src="data/kb.js"></script>
-  <script src="data/ia.js"></script>
-  <script src="app.js"></script>
+  <script>
+// Base de conocimiento de plagas y enfermedades (prototipo).
+// Los productos químicos se indican por ingrediente activo genérico: siempre
+// verificar el registro local (ICA, SENASICA, SENASA, etc.) y leer la etiqueta.
+(function (root) {
+  const SINTOMAS = {
+    // Hojas
+    manchas_hojas: "Manchas en las hojas",
+    manchas_amarillas: "Manchas amarillas en las hojas",
+    manchas_anillos: "Manchas con anillos concéntricos (tipo diana)",
+    manchas_aceitosas: "Manchas acuosas o aceitosas que se oscurecen",
+    halo_amarillo: "Manchas rodeadas de un halo amarillo",
+    polvo_blanco: "Polvo blanco o grisáceo sobre hojas",
+    pustulas_oxido: "Pústulas o polvo naranja, amarillo o café (roya)",
+    moho_gris: "Moho gris o afelpado",
+    moho_enves: "Pelusa o moho en el envés de la hoja",
+    amarillamiento: "Hojas amarillas (clorosis)",
+    mosaico: "Mosaico o moteado verde claro/oscuro",
+    hojas_enrolladas: "Hojas enrolladas, arrugadas o deformadas",
+    hojas_plateadas: "Hojas plateadas o con raspaduras finas",
+    galerias: "Galerías o túneles serpenteantes dentro de la hoja",
+    hojas_comidas: "Hojas mordidas, agujeros o bordes comidos",
+    fumagina: "Capa negra tipo hollín (fumagina)",
+    melaza: "Hojas pegajosas (melaza)",
+    telaranas: "Telarañas finas y puntitos amarillos",
+    caida_hojas: "Caída prematura de hojas",
+    rayas_hojas: "Rayas o franjas a lo largo de la hoja",
+    // Planta entera / tallo / raíz
+    marchitez: "Marchitez aunque el suelo esté húmedo",
+    enanismo: "Plantas enanas o crecimiento detenido",
+    pudricion_tallo: "Pudrición o lesión oscura en tallo o cuello",
+    pudricion_raiz: "Raíces podridas u oscuras",
+    agallas_raiz: "Nudos o agallas en las raíces",
+    volcamiento: "Plántulas que se caen en semillero (damping-off)",
+    exudado: "Exudado, goma o baba bacteriana",
+    cancro: "Cancros, grietas o corteza muerta",
+    vasos_oscuros: "Vasos oscuros al cortar el tallo",
+    // Insectos visibles
+    insectos_pequenos: "Insectos pequeños agrupados (pulgones)",
+    moscas_blancas: "Mosquitas blancas que vuelan al mover la planta",
+    orugas: "Orugas o gusanos",
+    escamas: "Escamas o algodoncillo blanco pegado a tallos/hojas",
+    escarabajos: "Escarabajos o cucarroncitos",
+    caracoles: "Rastros de baba, caracoles o babosas",
+    // Frutos / granos
+    pudricion_fruto: "Pudrición de frutos",
+    manchas_fruto: "Manchas o costras en frutos",
+    frutos_perforados: "Frutos o granos perforados",
+    fondo_negro_fruto: "Mancha negra y hundida en la punta del fruto",
+    caida_frutos: "Caída de flores o frutos pequeños",
+    mazorca_hongo: "Espiga, mazorca o panícula con hongo",
+  };
+
+  const CULTIVOS = [
+    "Tomate", "Papa", "Pimiento/Ají", "Maíz", "Arroz", "Trigo/Cebada", "Frijol", "Soya",
+    "Café", "Cacao", "Banano/Plátano", "Cítricos", "Aguacate", "Mango", "Vid (uva)",
+    "Fresa", "Manzana/Pera", "Cucurbitáceas (pepino, melón, calabaza, sandía)",
+    "Lechuga y hortalizas de hoja", "Crucíferas (repollo, brócoli, col)", "Cebolla/Ajo",
+    "Yuca", "Caña de azúcar", "Algodón", "Rosas y ornamentales", "Plantas de interior",
+    "Césped", "Frutales en general", "Otro",
+  ];
+
+  const T = "todos"; // cultivos: aplica a casi cualquier planta
+
+  const PLAGAS = [
+    // ---------------- HONGOS / OOMICETOS ----------------
+    {
+      id: "tizon_tardio", nombre: "Tizón tardío", cientifico: "Phytophthora infestans", tipo: "Oomiceto",
+      cultivos: ["Tomate", "Papa"], severidad: "alta",
+      sintomas: ["manchas_aceitosas", "moho_enves", "pudricion_fruto", "manchas_hojas", "pudricion_tallo"],
+      clave: ["tizón", "gotera", "lancha", "mancha grande oscura", "clima frío húmedo"],
+      descripcion: "Manchas grandes, acuosas, verde oscuro a café en hojas y tallos, con pelusa blanca en el envés en clima húmedo. Avanza muy rápido y puede destruir el cultivo en días.",
+      cultural: ["Eliminar y destruir plantas o foliolos afectados (no compostar).", "Mejorar aireación: tutorado, poda de hojas bajas, mayor distancia.", "Evitar riego por aspersión; regar temprano y al pie.", "Usar variedades tolerantes y semilla certificada."],
+      biologico: ["Bacillus subtilis o B. amyloliquefaciens preventivo.", "Caldo bordelés o sulfato cúprico (aceptado en orgánico, con límites)."],
+      quimico: ["Preventivos: mancozeb, clorotalonil, cobre.", "Sistémicos/curativos: cimoxanil, metalaxil-M, dimetomorf, mandipropamid, fluopicolide. Rotar modos de acción (FRAC)."],
+      prevencion: "Monitorear 2 veces por semana en épocas frías y lluviosas; aplicar preventivos antes de lluvias prolongadas.",
+    },
+    {
+      id: "tizon_temprano", nombre: "Tizón temprano (Alternaria)", cientifico: "Alternaria solani / A. linariae", tipo: "Hongo",
+      cultivos: ["Tomate", "Papa", "Pimiento/Ají"], severidad: "media",
+      sintomas: ["manchas_anillos", "halo_amarillo", "amarillamiento", "caida_hojas", "manchas_fruto"],
+      clave: ["anillos", "diana", "hojas viejas", "alternaria"],
+      descripcion: "Manchas cafés con anillos concéntricos (tipo diana) y halo amarillo, empezando en hojas viejas de abajo.",
+      cultural: ["Retirar hojas bajas afectadas.", "Acolchado (mulch) para evitar salpicaduras de suelo.", "Rotación de 2-3 años sin solanáceas.", "Fertilización balanceada (plantas débiles son más susceptibles)."],
+      biologico: ["Bacillus subtilis, Trichoderma spp. en suelo.", "Productos a base de cobre."],
+      quimico: ["Clorotalonil, mancozeb, azoxistrobina, difenoconazol, boscalid. Rotar grupos FRAC."],
+      prevencion: "Empezar protección cuando aparezcan las primeras manchas en hojas bajas.",
+    },
+    {
+      id: "oidio", nombre: "Oídio (cenicilla)", cientifico: "Erysiphales (Podosphaera, Erysiphe, Leveillula...)", tipo: "Hongo",
+      cultivos: [T], severidad: "media",
+      sintomas: ["polvo_blanco", "amarillamiento", "hojas_enrolladas", "caida_hojas"],
+      clave: ["polvo blanco", "ceniza", "harina", "cenicilla", "mildiu polvoso"],
+      descripcion: "Polvo blanco harinoso sobre hojas, brotes y a veces frutos. Común en clima seco con noches húmedas.",
+      cultural: ["Retirar hojas muy afectadas.", "Mejorar ventilación y luz.", "Evitar exceso de nitrógeno."],
+      biologico: ["Azufre mojable (no aplicar con más de 30 °C ni junto a aceites).", "Bicarbonato de potasio.", "Bacillus pumilus / B. subtilis, aceite de neem."],
+      quimico: ["Triazoles (tebuconazol, miclobutanil, difenoconazol), estrobilurinas, quinoxifen. Rotar grupos."],
+      prevencion: "Tratar al primer signo; el oídio se propaga rápido por viento.",
+    },
+    {
+      id: "mildiu_velloso", nombre: "Mildiú velloso", cientifico: "Peronosporaceae (Plasmopara, Pseudoperonospora, Bremia...)", tipo: "Oomiceto",
+      cultivos: ["Vid (uva)", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Lechuga y hortalizas de hoja", "Cebolla/Ajo", "Rosas y ornamentales", "Crucíferas (repollo, brócoli, col)"], severidad: "alta",
+      sintomas: ["manchas_amarillas", "moho_enves", "manchas_aceitosas", "manchas_hojas", "caida_hojas"],
+      clave: ["mancha aceite", "pelusa gris violeta envés", "angular"],
+      descripcion: "Manchas amarillas o aceitosas en el haz (a menudo angulares) con pelusa gris-violácea en el envés.",
+      cultural: ["Reducir humedad foliar; riego por goteo.", "Espaciamiento y poda para ventilación.", "Eliminar restos de cosecha."],
+      biologico: ["Cobre (caldo bordelés).", "Bacillus amyloliquefaciens preventivo."],
+      quimico: ["Mancozeb, cimoxanil, metalaxil-M, fosetil-Al, dimetomorf, mandipropamid, ametoctradina."],
+      prevencion: "Aplicaciones preventivas en temporada de lluvias o alta humedad nocturna.",
+    },
+    {
+      id: "botrytis", nombre: "Moho gris (Botrytis)", cientifico: "Botrytis cinerea", tipo: "Hongo",
+      cultivos: ["Fresa", "Vid (uva)", "Tomate", "Rosas y ornamentales", "Lechuga y hortalizas de hoja", T], severidad: "alta",
+      sintomas: ["moho_gris", "pudricion_fruto", "pudricion_tallo", "manchas_hojas"],
+      clave: ["moho gris", "podredumbre gris", "pelusa gris"],
+      descripcion: "Moho gris afelpado sobre frutos, flores, tallos o heridas; pudrición blanda. Prospera con humedad alta y poca ventilación.",
+      cultural: ["Retirar frutos y tejidos afectados fuera del cultivo.", "Ventilar invernaderos; bajar humedad relativa.", "Evitar heridas y cosechar en seco."],
+      biologico: ["Trichoderma harzianum, Bacillus subtilis, Clonostachys rosea."],
+      quimico: ["Fenhexamida, boscalid, fludioxonil + ciprodinil, iprodiona (según registro). Rotar."],
+      prevencion: "Controlar humedad y proteger en floración.",
+    },
+    {
+      id: "roya_cafe", nombre: "Roya del café", cientifico: "Hemileia vastatrix", tipo: "Hongo",
+      cultivos: ["Café"], severidad: "alta",
+      sintomas: ["pustulas_oxido", "manchas_amarillas", "caida_hojas"],
+      clave: ["roya", "polvo naranja", "envés"],
+      descripcion: "Manchas amarillas en el haz y polvo naranja en el envés de la hoja; causa caída de hojas y pérdida de producción.",
+      cultural: ["Variedades resistentes (Castillo, Cenicafé 1, Colombia, Marsellesa, etc.).", "Manejo de sombra y densidad; renovación por zoca.", "Nutrición adecuada, sobre todo potasio."],
+      biologico: ["Cobre preventivo; hongos hiperparásitos (Lecanicillium) en investigación."],
+      quimico: ["Triazoles (cyproconazol, tebuconazol, hexaconazol) y estrobilurinas (azoxistrobina, piraclostrobina) según calendario por floración."],
+      prevencion: "Evaluar incidencia mensual; iniciar control al 5% de incidencia en época de lluvias.",
+    },
+    {
+      id: "roya_general", nombre: "Royas (general)", cientifico: "Pucciniales (Puccinia, Uromyces, Phakopsora...)", tipo: "Hongo",
+      cultivos: ["Maíz", "Trigo/Cebada", "Frijol", "Soya", "Caña de azúcar", "Rosas y ornamentales", "Césped", "Cebolla/Ajo", "Frutales en general"], severidad: "media",
+      sintomas: ["pustulas_oxido", "amarillamiento", "caida_hojas", "manchas_hojas"],
+      clave: ["roya", "óxido", "pústula", "polvo café", "polvo anaranjado"],
+      descripcion: "Pústulas pulverulentas anaranjadas, amarillas, cafés o negras en hojas y tallos que manchan los dedos al frotarlas.",
+      cultural: ["Variedades resistentes.", "Eliminar hospederos alternos y plantas voluntarias.", "Evitar exceso de nitrógeno y alta densidad."],
+      biologico: ["Azufre y cobre preventivos en hortalizas y ornamentales."],
+      quimico: ["Triazoles (tebuconazol, propiconazol), estrobilurinas (azoxistrobina) o mezclas."],
+      prevencion: "Monitorear hojas bajeras en épocas húmedas y templadas.",
+    },
+    {
+      id: "sigatoka", nombre: "Sigatoka negra", cientifico: "Pseudocercospora fijiensis", tipo: "Hongo",
+      cultivos: ["Banano/Plátano"], severidad: "alta",
+      sintomas: ["rayas_hojas", "manchas_hojas", "caida_hojas"],
+      clave: ["rayas", "estrías", "sigatoka", "hoja negra"],
+      descripcion: "Pequeñas rayas café rojizas que crecen hasta manchas negras con centro gris; secan las hojas y reducen el racimo.",
+      cultural: ["Deshoje y cirugía de hojas afectadas cada semana.", "Drenajes y densidad adecuada.", "Nutrición balanceada."],
+      biologico: ["Aceite agrícola, Bacillus spp., extractos vegetales como apoyo."],
+      quimico: ["Mancozeb, clorotalonil + aceite; triazoles, estrobilurinas, SDHI en ciclos rotados por el programa técnico."],
+      prevencion: "Monitoreo semanal del estado evolutivo de la enfermedad.",
+    },
+    {
+      id: "fusarium_marchitez", nombre: "Marchitez por Fusarium", cientifico: "Fusarium oxysporum (formae speciales)", tipo: "Hongo del suelo",
+      cultivos: ["Tomate", "Banano/Plátano", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Frijol", "Rosas y ornamentales", "Algodón", T], severidad: "alta",
+      sintomas: ["marchitez", "amarillamiento", "vasos_oscuros", "enanismo"],
+      clave: ["marchitez", "un lado", "vasos cafés", "mal de panamá", "fusarium"],
+      descripcion: "Amarillamiento y marchitez, a menudo de un solo lado de la planta; al cortar el tallo los vasos están cafés. En banano, la Raza 4 Tropical (Foc R4T) es de reporte obligatorio.",
+      cultural: ["Arrancar y destruir plantas enfermas; no mover suelo contaminado.", "Variedades o portainjertos resistentes.", "Rotación larga, desinfección de herramientas y calzado.", "Corregir pH (subirlo reduce Fusarium)."],
+      biologico: ["Trichoderma spp., Bacillus subtilis, micorrizas en trasplante."],
+      quimico: ["No hay cura química eficaz en planta enferma. Desinfección de suelo en viveros; tratamientos de semilla."],
+      prevencion: "En banano, sospechas de Foc R4T deben reportarse a la autoridad sanitaria.",
+    },
+    {
+      id: "damping_off", nombre: "Mal del talluelo (damping-off)", cientifico: "Pythium, Rhizoctonia, Fusarium", tipo: "Hongos del suelo",
+      cultivos: [T], severidad: "media",
+      sintomas: ["volcamiento", "pudricion_tallo", "marchitez"],
+      clave: ["semillero", "plántulas caen", "cuello delgado", "almácigo"],
+      descripcion: "Plántulas que se estrangulan en la base del tallo y se caen en el semillero.",
+      cultural: ["Sustrato nuevo o desinfectado (solarización, vapor).", "No regar en exceso; buen drenaje y ventilación.", "Sembrar menos denso."],
+      biologico: ["Trichoderma harzianum y Bacillus subtilis en sustrato."],
+      quimico: ["Propamocarb, metalaxil-M (Pythium); tolclofos-metil o PCNB (Rhizoctonia) según registro."],
+      prevencion: "Higiene de bandejas y sustrato.",
+    },
+    {
+      id: "antracnosis", nombre: "Antracnosis", cientifico: "Colletotrichum spp.", tipo: "Hongo",
+      cultivos: ["Mango", "Aguacate", "Frijol", "Pimiento/Ají", "Fresa", "Cítricos", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Café", "Frutales en general"], severidad: "alta",
+      sintomas: ["manchas_fruto", "pudricion_fruto", "manchas_hojas", "caida_frutos", "cancro"],
+      clave: ["mancha negra hundida", "fruto", "antracnosis", "lesión"],
+      descripcion: "Manchas oscuras y hundidas en frutos, hojas y ramas; en frutos maduros forman masas rosadas de esporas.",
+      cultural: ["Poda sanitaria y eliminación de frutos momificados.", "Cosecha oportuna y manejo poscosecha (tratamiento hidrotérmico en mango).", "Evitar riego por aspersión."],
+      biologico: ["Bacillus subtilis, cobre."],
+      quimico: ["Azoxistrobina, difenoconazol, procloraz, mancozeb. Rotar."],
+      prevencion: "Proteger en floración y cuajado en época lluviosa.",
+    },
+    {
+      id: "phytophthora_raiz", nombre: "Pudrición de raíz (Phytophthora)", cientifico: "Phytophthora cinnamomi, P. capsici y otras", tipo: "Oomiceto",
+      cultivos: ["Aguacate", "Cítricos", "Pimiento/Ají", "Cacao", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Plantas de interior", T], severidad: "alta",
+      sintomas: ["pudricion_raiz", "marchitez", "amarillamiento", "caida_hojas", "pudricion_tallo", "exudado"],
+      clave: ["encharcamiento", "raíz podrida", "tristeza", "gomosis"],
+      descripcion: "Raíces cafés y blandas, marchitez y decaimiento general, frecuente en suelos encharcados. En cítricos puede causar gomosis en el tronco.",
+      cultural: ["Mejorar drenaje, sembrar en camellones.", "No regar en exceso; no enterrar el cuello de la planta.", "Portainjertos tolerantes; materia orgánica y acolchado."],
+      biologico: ["Trichoderma spp.; compost maduro."],
+      quimico: ["Fosfitos de potasio y fosetil-Al (inyección o foliar); metalaxil-M al suelo."],
+      prevencion: "El riego es la clave: dejar secar la superficie entre riegos.",
+    },
+    {
+      id: "moniliasis", nombre: "Moniliasis del cacao", cientifico: "Moniliophthora roreri", tipo: "Hongo",
+      cultivos: ["Cacao"], severidad: "alta",
+      sintomas: ["pudricion_fruto", "manchas_fruto", "moho_gris"],
+      clave: ["mazorca", "polvo crema", "gibas", "monilia"],
+      descripcion: "Mazorcas con gibas, manchas cafés y luego un polvo blanco-crema de esporas.",
+      cultural: ["Remoción semanal de mazorcas enfermas antes de que esporulen; cubrirlas en el suelo.", "Poda para bajar sombra y humedad."],
+      biologico: ["Trichoderma spp., Bacillus spp."],
+      quimico: ["Cobre y triazoles como apoyo; lo cultural es lo más eficaz."],
+      prevencion: "Cosechas sanitarias frecuentes.",
+    },
+    {
+      id: "pudricion_raiz_general", nombre: "Pudrición de raíz por exceso de riego", cientifico: "Pythium, Rhizoctonia + asfixia radicular", tipo: "Hongos / manejo",
+      cultivos: ["Plantas de interior", "Rosas y ornamentales", T], severidad: "media",
+      sintomas: ["pudricion_raiz", "amarillamiento", "marchitez", "caida_hojas"],
+      clave: ["maceta", "riego", "olor feo", "raíz negra", "interior"],
+      descripcion: "Hojas amarillas o caídas y tallos blandos en plantas regadas en exceso; raíces negras y con mal olor.",
+      cultural: ["Sacar la planta, cortar raíces podridas y trasplantar a sustrato nuevo con buen drenaje.", "Maceta con agujeros; regar solo cuando el sustrato esté seco a 2-3 cm."],
+      biologico: ["Trichoderma en el sustrato nuevo."],
+      quimico: ["Rara vez necesario; en viveros propamocarb o fosfitos."],
+      prevencion: "Riego según necesidad, no por calendario.",
+    },
+    {
+      id: "pyricularia", nombre: "Piricularia (quemado del arroz)", cientifico: "Magnaporthe oryzae", tipo: "Hongo",
+      cultivos: ["Arroz", "Trigo/Cebada"], severidad: "alta",
+      sintomas: ["manchas_hojas", "mazorca_hongo", "pudricion_tallo"],
+      clave: ["rombo", "cuello", "panícula", "blast", "quemado"],
+      descripcion: "Manchas en forma de rombo con centro gris y borde café en hojas; en el cuello de la panícula causa espigas vanas.",
+      cultural: ["Variedades resistentes, semilla certificada.", "Evitar exceso de nitrógeno; lámina de agua estable."],
+      biologico: ["Trichoderma y Bacillus en semilla (apoyo)."],
+      quimico: ["Triciclazol, azoxistrobina, isoprotiolano, tebuconazol (en embuchamiento y espigamiento)."],
+      prevencion: "Monitoreo en macollamiento y antes de floración.",
+    },
+    {
+      id: "carbon_mazorca", nombre: "Carbón / pudriciones de mazorca", cientifico: "Ustilago maydis, Fusarium spp.", tipo: "Hongo",
+      cultivos: ["Maíz"], severidad: "media",
+      sintomas: ["mazorca_hongo", "pudricion_fruto"],
+      clave: ["huitlacoche", "agalla", "carbón", "mazorca podrida"],
+      descripcion: "Agallas grises que se llenan de polvo negro (carbón) o mazorcas con moho rosado/blanco.",
+      cultural: ["Retirar agallas antes de que revienten.", "Híbridos tolerantes; evitar daño de insectos en mazorca.", "Rotación y manejo de rastrojo."],
+      biologico: ["Control de gusano elotero con Bt reduce entradas del hongo."],
+      quimico: ["Tratamiento de semilla; fungicidas foliares poco eficaces para carbón."],
+      prevencion: "Cosechar a tiempo y secar bien el grano (micotoxinas).",
+    },
+    {
+      id: "sarna_manzano", nombre: "Sarna o roña del manzano", cientifico: "Venturia inaequalis", tipo: "Hongo",
+      cultivos: ["Manzana/Pera"], severidad: "media",
+      sintomas: ["manchas_hojas", "manchas_fruto", "caida_hojas"],
+      clave: ["costra", "sarna", "roña", "mancha olivácea"],
+      descripcion: "Manchas verde oliva aterciopeladas en hojas y costras oscuras agrietadas en frutos.",
+      cultural: ["Eliminar o triturar hojarasca en otoño.", "Poda para ventilación.", "Variedades resistentes."],
+      biologico: ["Azufre, cobre en yema hinchada."],
+      quimico: ["Captan, dodina, difenoconazol, ditianona según modelo de riesgo por lluvia."],
+      prevencion: "Proteger desde brotación en periodos de lluvia.",
+    },
+    // ---------------- BACTERIAS ----------------
+    {
+      id: "mancha_bacteriana", nombre: "Mancha / peca bacteriana", cientifico: "Xanthomonas spp., Pseudomonas syringae", tipo: "Bacteria",
+      cultivos: ["Tomate", "Pimiento/Ají", "Frijol", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Crucíferas (repollo, brócoli, col)", "Lechuga y hortalizas de hoja"], severidad: "media",
+      sintomas: ["manchas_hojas", "halo_amarillo", "manchas_aceitosas", "manchas_fruto"],
+      clave: ["puntos negros", "angular", "halo", "bacteria"],
+      descripcion: "Pequeñas manchas oscuras, aceitosas o angulares con halo amarillo; en frutos, costras o pecas.",
+      cultural: ["Semilla y plántulas sanas.", "No trabajar el cultivo mojado; evitar aspersión.", "Rotación y eliminación de restos."],
+      biologico: ["Bacillus subtilis, cobre."],
+      quimico: ["Cobre + mancozeb; acibenzolar-S-metil (inductor de defensas). Antibióticos solo donde estén autorizados."],
+      prevencion: "Desinfectar herramientas y bandejas.",
+    },
+    {
+      id: "marchitez_bacteriana", nombre: "Marchitez bacteriana (moko / Ralstonia)", cientifico: "Ralstonia solanacearum", tipo: "Bacteria",
+      cultivos: ["Tomate", "Papa", "Pimiento/Ají", "Banano/Plátano"], severidad: "alta",
+      sintomas: ["marchitez", "exudado", "vasos_oscuros"],
+      clave: ["marchitez rápida verde", "baba blanca en agua", "moko", "maduración prematura"],
+      descripcion: "Marchitez rápida con hojas aún verdes. Si se pone un trozo de tallo en agua sale un hilo lechoso (flujo bacteriano).",
+      cultural: ["Arrancar y destruir plantas enfermas con su suelo; cuarentena del lote.", "Rotación larga con gramíneas; desinfectar herramientas.", "Semilla/cormos certificados."],
+      biologico: ["Bacillus y Pseudomonas antagonistas como preventivo."],
+      quimico: ["Sin control químico eficaz. En banano (moko) es de manejo obligatorio con la autoridad sanitaria."],
+      prevencion: "Evitar mover suelo y agua de lotes infectados.",
+    },
+    {
+      id: "huanglongbing", nombre: "Huanglongbing (HLB, dragón amarillo)", cientifico: "Candidatus Liberibacter spp. (vector: Diaphorina citri)", tipo: "Bacteria",
+      cultivos: ["Cítricos"], severidad: "alta",
+      sintomas: ["amarillamiento", "manchas_amarillas", "caida_frutos", "enanismo", "manchas_fruto"],
+      clave: ["moteado asimétrico", "frutos deformes", "psílido", "hlb", "brote amarillo"],
+      descripcion: "Moteado amarillo asimétrico en hojas, brotes amarillos, frutos pequeños, deformes y amargos. No tiene cura.",
+      cultural: ["Eliminar árboles enfermos confirmados.", "Plantas de vivero certificado bajo malla.", "Reportar a la autoridad sanitaria."],
+      biologico: ["Control del psílido con Tamarixia radiata e hongos entomopatógenos."],
+      quimico: ["Control del vector: imidacloprid, tiametoxam, abamectina, aceites (coordinado por zona)."],
+      prevencion: "Monitoreo del psílido en brotes tiernos.",
+    },
+    // ---------------- VIRUS ----------------
+    {
+      id: "virus_mosaico", nombre: "Virosis (mosaicos)", cientifico: "TMV, ToBRFV, CMV, PVY, BCMV, ZYMV y otros", tipo: "Virus",
+      cultivos: [T], severidad: "alta",
+      sintomas: ["mosaico", "hojas_enrolladas", "enanismo", "manchas_fruto", "amarillamiento"],
+      clave: ["mosaico", "moteado", "deformación", "virus", "rugoso"],
+      descripcion: "Mosaico verde claro/oscuro, hojas arrugadas o deformes, enanismo y frutos manchados. Transmitidos por insectos (pulgones, moscas blancas, trips), semilla o manos/herramientas.",
+      cultural: ["Arrancar plantas con síntomas lo antes posible.", "Controlar insectos vectores y malezas hospederas.", "Semilla certificada y variedades resistentes.", "Lavarse las manos y desinfectar herramientas (leche descremada o hipoclorito)."],
+      biologico: ["Barreras físicas: malla antiáfidos, trampas amarillas y azules."],
+      quimico: ["No hay productos que curen virus; solo control de vectores."],
+      prevencion: "Plántulas sanas y control temprano de vectores.",
+    },
+    {
+      id: "virus_rizado", nombre: "Virus del rizado amarillo (begomovirus)", cientifico: "TYLCV y begomovirus afines (vector: Bemisia tabaci)", tipo: "Virus",
+      cultivos: ["Tomate", "Pimiento/Ají", "Frijol", "Cucurbitáceas (pepino, melón, calabaza, sandía)", "Yuca"], severidad: "alta",
+      sintomas: ["hojas_enrolladas", "amarillamiento", "enanismo", "moscas_blancas", "caida_frutos"],
+      clave: ["hojas cuchara", "rizado", "amarillo", "mosca blanca"],
+      descripcion: "Hojas pequeñas enrolladas hacia arriba (en cuchara) con bordes amarillos y planta enana; asociado a mosca blanca.",
+      cultural: ["Eliminar plantas infectadas.", "Semilleros bajo malla antiinsectos; variedades tolerantes (gen Ty).", "Periodos libres de hospederos."],
+      biologico: ["Control de mosca blanca con Beauveria, Isaria, Encarsia/Eretmocerus."],
+      quimico: ["Control del vector (ver mosca blanca)."],
+      prevencion: "Proteger las primeras 6 semanas tras el trasplante.",
+    },
+    // ---------------- INSECTOS ----------------
+    {
+      id: "pulgones", nombre: "Pulgones (áfidos)", cientifico: "Aphididae (Myzus persicae, Aphis gossypii...)", tipo: "Insecto",
+      cultivos: [T], severidad: "media",
+      sintomas: ["insectos_pequenos", "hojas_enrolladas", "melaza", "fumagina", "mosaico"],
+      clave: ["pulgón", "piojo", "colonias", "brotes tiernos", "hormigas"],
+      descripcion: "Colonias de insectos pequeños verdes, negros o amarillos en brotes y envés; hojas enrolladas y pegajosas. Transmiten virus.",
+      cultural: ["Retirar brotes muy infestados; chorro de agua.", "Evitar exceso de nitrógeno.", "Controlar hormigas que los protegen."],
+      biologico: ["Mariquitas, crisopas, avispas Aphidius.", "Jabón potásico, aceite de neem, Beauveria bassiana, Lecanicillium."],
+      quimico: ["Pirimicarb, flonicamid, spirotetramat, acetamiprid, sulfoxaflor. Evitar aplicar en floración (abejas)."],
+      prevencion: "Trampas amarillas y revisión de brotes semanal.",
+    },
+    {
+      id: "mosca_blanca", nombre: "Mosca blanca", cientifico: "Bemisia tabaci, Trialeurodes vaporariorum", tipo: "Insecto",
+      cultivos: [T], severidad: "alta",
+      sintomas: ["moscas_blancas", "melaza", "fumagina", "amarillamiento", "hojas_enrolladas"],
+      clave: ["mosquita blanca", "vuela", "envés", "mosca blanca"],
+      descripcion: "Pequeños insectos blancos que vuelan al mover la planta; ninfas planas en el envés. Producen melaza, fumagina y transmiten virus.",
+      cultural: ["Trampas amarillas pegajosas.", "Malla antiinsectos en semilleros/invernaderos.", "Eliminar malezas y restos de cultivo."],
+      biologico: ["Encarsia formosa, Eretmocerus, Beauveria bassiana, Isaria fumosorosea.", "Jabón potásico, aceite de neem."],
+      quimico: ["Spiromesifen, piriproxifeno, ciantraniliprol, flupiradifurona, acetamiprid. Rotar grupos IRAC."],
+      prevencion: "Monitorear el envés de hojas jóvenes.",
+    },
+    {
+      id: "trips", nombre: "Trips", cientifico: "Thripidae (Frankliniella occidentalis, Thrips tabaci...)", tipo: "Insecto",
+      cultivos: [T], severidad: "media",
+      sintomas: ["hojas_plateadas", "hojas_enrolladas", "manchas_fruto", "caida_frutos"],
+      clave: ["plateado", "raspado", "puntos negros", "flores", "trips"],
+      descripcion: "Insectos alargados muy pequeños que raspan hojas y flores dejando zonas plateadas con puntitos negros. Transmiten tospovirus.",
+      cultural: ["Trampas azules pegajosas.", "Eliminar malezas; riego por aspersión reduce poblaciones en cebolla."],
+      biologico: ["Ácaros depredadores (Amblyseius swirskii, A. cucumeris), Orius.", "Beauveria bassiana, aceite de neem, spinosad (orgánico)."],
+      quimico: ["Spinetoram, abamectina, cyantraniliprol, metiocarb (según registro)."],
+      prevencion: "Revisar flores sacudiéndolas sobre papel blanco.",
+    },
+    {
+      id: "arana_roja", nombre: "Araña roja (ácaros)", cientifico: "Tetranychus urticae y afines", tipo: "Ácaro",
+      cultivos: [T], severidad: "media",
+      sintomas: ["telaranas", "amarillamiento", "hojas_plateadas", "caida_hojas"],
+      clave: ["telaraña", "puntitos", "bronceado", "ácaro", "araña"],
+      descripcion: "Punteado amarillo en hojas que luego se broncean; telarañas finas en el envés. Favorecida por calor y sequedad.",
+      cultural: ["Aumentar humedad ambiental; lavar el follaje.", "Eliminar hojas muy dañadas y malezas."],
+      biologico: ["Phytoseiulus persimilis, Neoseiulus californicus.", "Azufre, jabón potásico, aceite de neem."],
+      quimico: ["Abamectina, bifenazato, spiromesifen, etoxazol, acequinocil. Rotar (desarrollan resistencia rápido)."],
+      prevencion: "Revisar el envés con lupa en épocas secas.",
+    },
+    {
+      id: "minador", nombre: "Minador de hojas", cientifico: "Liriomyza spp.; Tuta absoluta (tomate); Phyllocnistis (cítricos)", tipo: "Insecto",
+      cultivos: [T], severidad: "media",
+      sintomas: ["galerias", "manchas_hojas", "frutos_perforados"],
+      clave: ["galerías", "túneles", "serpentina", "minador", "tuta"],
+      descripcion: "Túneles blanquecinos serpenteantes dentro de la hoja. En tomate, Tuta absoluta hace minas anchas y perfora frutos.",
+      cultural: ["Eliminar hojas minadas; trampas amarillas (Liriomyza) o de feromona (Tuta).", "Malla en invernadero; destruir restos."],
+      biologico: ["Diglyphus isaea, Nesidiocoris tenuis; Bacillus thuringiensis contra Tuta."],
+      quimico: ["Abamectina, ciromazina, spinetoram, clorantraniliprol, emamectina."],
+      prevencion: "Trampas de feromona para detectar Tuta temprano.",
+    },
+    {
+      id: "gusano_cogollero", nombre: "Gusano cogollero", cientifico: "Spodoptera frugiperda", tipo: "Insecto (lepidóptero)",
+      cultivos: ["Maíz", "Arroz", "Trigo/Cebada", "Soya", "Algodón", "Caña de azúcar", "Césped", "Pimiento/Ají", "Tomate"], severidad: "alta",
+      sintomas: ["orugas", "hojas_comidas", "frutos_perforados"],
+      clave: ["cogollo", "aserrín", "excremento", "hojas rasgadas", "gusano"],
+      descripcion: "Oruga con una Y invertida en la cabeza que devora el cogollo dejando hojas rasgadas y excremento tipo aserrín.",
+      cultural: ["Siembras oportunas y uniformes; eliminar malezas.", "Monitoreo: control al 20% de plantas con daño fresco (maíz joven)."],
+      biologico: ["Bacillus thuringiensis, Beauveria, Metarhizium, virus VPN (SfMNPV), Telenomus y Trichogramma."],
+      quimico: ["Clorantraniliprol, spinetoram, emamectina benzoato, lufenuron. Dirigir al cogollo."],
+      prevencion: "Trampas de feromona y revisión semanal.",
+    },
+    {
+      id: "orugas_defoliadoras", nombre: "Orugas defoliadoras y gusanos del fruto", cientifico: "Helicoverpa, Plutella xylostella, Trichoplusia, Spodoptera spp.", tipo: "Insecto (lepidóptero)",
+      cultivos: [T], severidad: "media",
+      sintomas: ["orugas", "hojas_comidas", "frutos_perforados"],
+      clave: ["oruga", "gusano", "agujeros", "palomilla", "polilla"],
+      descripcion: "Orugas que comen hojas, cogollos o perforan frutos. En crucíferas, la palomilla dorso de diamante hace ventanitas en las hojas.",
+      cultural: ["Recolección manual; eliminar malezas.", "Mallas y trampas de luz o feromona."],
+      biologico: ["Bacillus thuringiensis (Bt), Trichogramma, spinosad.", "Extracto de ajo/ají como repelente casero."],
+      quimico: ["Clorantraniliprol, indoxacarb, emamectina, spinetoram, lufenuron. Rotar."],
+      prevencion: "Aplicar Bt con larvas pequeñas (más eficaz).",
+    },
+    {
+      id: "broca_cafe", nombre: "Broca del café", cientifico: "Hypothenemus hampei", tipo: "Insecto (escarabajo)",
+      cultivos: ["Café"], severidad: "alta",
+      sintomas: ["frutos_perforados", "caida_frutos", "escarabajos"],
+      clave: ["broca", "hueco en la corona", "grano perforado"],
+      descripcion: "Pequeño escarabajo que perfora el fruto por la corona (ombligo) y se reproduce dentro del grano.",
+      cultural: ["Re-Re: recoger frutos maduros, sobremaduros y caídos (no dejar frutos en el árbol ni en el suelo).", "Trampas con alcohol (metanol:etanol)."],
+      biologico: ["Beauveria bassiana cuando la broca está en posición A/B (entrando).", "Parasitoides (Cephalonomia, Prorops)."],
+      quimico: ["Solo con evaluación técnica y infestación sobre el umbral (clorantraniliprol, según registro)."],
+      prevencion: "Evaluar % de infestación mensual; umbral típico 2%.",
+    },
+    {
+      id: "cochinilla", nombre: "Cochinillas y escamas", cientifico: "Pseudococcidae, Coccidae, Diaspididae", tipo: "Insecto",
+      cultivos: [T], severidad: "media",
+      sintomas: ["escamas", "melaza", "fumagina", "amarillamiento"],
+      clave: ["algodón", "cochinilla", "escama", "piojo harinoso"],
+      descripcion: "Insectos cubiertos de cera blanca algodonosa o escudos duros pegados a tallos, hojas, frutos o raíces.",
+      cultural: ["Limpiar con algodón con alcohol (plantas de interior).", "Podar ramas muy infestadas; controlar hormigas."],
+      biologico: ["Cryptolaemus montrouzieri, Leptomastix; aceite mineral/parafínico, jabón potásico, neem."],
+      quimico: ["Spirotetramat, buprofezina, piriproxifeno, aceite + insecticida sistémico según cultivo."],
+      prevencion: "Revisar plantas nuevas antes de introducirlas.",
+    },
+    {
+      id: "psilido_citricos", nombre: "Psílido asiático de los cítricos", cientifico: "Diaphorina citri", tipo: "Insecto",
+      cultivos: ["Cítricos"], severidad: "alta",
+      sintomas: ["insectos_pequenos", "hojas_enrolladas", "melaza"],
+      clave: ["brotes", "psílido", "hilos cerosos", "hlb"],
+      descripcion: "Insecto pequeño que se posa a 45° en brotes tiernos; ninfas con hilos cerosos blancos. Vector del HLB.",
+      cultural: ["Monitorear brotes; eliminar mirto/limonaria hospederos."],
+      biologico: ["Tamarixia radiata, Isaria/Beauveria, aceites."],
+      quimico: ["Imidacloprid, tiametoxam, abamectina, spirotetramat en rotación y coordinación regional."],
+      prevencion: "Ver también HLB.",
+    },
+    {
+      id: "picudo", nombre: "Picudos y gorgojos", cientifico: "Cosmopolites sordidus, Anthonomus grandis, Rhynchophorus, gorgojos de grano", tipo: "Insecto (escarabajo)",
+      cultivos: ["Banano/Plátano", "Algodón", "Maíz", "Arroz", "Frijol", "Trigo/Cebada", "Pimiento/Ají"], severidad: "media",
+      sintomas: ["escarabajos", "frutos_perforados", "marchitez", "caida_frutos"],
+      clave: ["picudo", "gorgojo", "trompa", "galerías en cormo", "grano almacenado"],
+      descripcion: "Escarabajos con trompa que perforan cormos, tallos, botones o granos almacenados.",
+      cultural: ["Trampas de seudotallo o feromona (banano).", "Semilla limpia; destruir residuos.", "Almacenar granos secos y herméticos."],
+      biologico: ["Beauveria bassiana en trampas; nematodos entomopatógenos."],
+      quimico: ["Según cultivo y registro; en granos almacenados, fumigación solo por personal autorizado."],
+      prevencion: "Trampeo permanente.",
+    },
+    {
+      id: "gusano_blanco", nombre: "Chizas / gusano blanco y tierreros", cientifico: "Phyllophaga, Premnotrypes (gusano blanco de la papa), Agrotis", tipo: "Insecto de suelo",
+      cultivos: ["Papa", "Maíz", "Césped", "Yuca", "Frijol", "Lechuga y hortalizas de hoja", T], severidad: "media",
+      sintomas: ["marchitez", "volcamiento", "hojas_comidas", "orugas", "frutos_perforados"],
+      clave: ["larva en C", "tierrero", "cortan plántulas", "tubérculo perforado"],
+      descripcion: "Larvas en el suelo que cortan plántulas o comen raíces y tubérculos (larvas blancas en forma de C o gusanos grises).",
+      cultural: ["Arar y exponer larvas a aves; eliminar malezas antes de sembrar.", "Trampas de luz para adultos."],
+      biologico: ["Metarhizium, Beauveria, nematodos Heterorhabditis/Steinernema."],
+      quimico: ["Cebos o insecticidas al suelo según registro (clorantraniliprol, etc.)."],
+      prevencion: "Muestreo de suelo antes de sembrar.",
+    },
+    {
+      id: "hormiga_arriera", nombre: "Hormiga arriera / cortadora", cientifico: "Atta spp., Acromyrmex spp.", tipo: "Insecto",
+      cultivos: [T], severidad: "media",
+      sintomas: ["hojas_comidas", "caida_hojas"],
+      clave: ["hormiga", "cortes media luna", "senderos", "defoliación nocturna"],
+      descripcion: "Cortes en media luna en hojas y defoliación rápida (a menudo de noche); caminos de hormigas hacia un hormiguero.",
+      cultural: ["Localizar y manejar el hormiguero; barreras en troncos."],
+      biologico: ["Hongos Metarhizium/Trichoderma para el hongo del nido; cebos con extractos vegetales."],
+      quimico: ["Cebos granulados con sulfluramida o fipronil (según registro)."],
+      prevencion: "Revisar senderos al atardecer.",
+    },
+    {
+      id: "chinche", nombre: "Chinches", cientifico: "Pentatomidae (Nezara, Euschistus, Oebalus), Lygus", tipo: "Insecto",
+      cultivos: ["Soya", "Arroz", "Frijol", "Tomate", "Maíz", "Algodón", "Frutales en general"], severidad: "media",
+      sintomas: ["manchas_fruto", "caida_frutos", "escarabajos"],
+      clave: ["chinche", "olor fuerte", "granos manchados", "vanos"],
+      descripcion: "Insectos con forma de escudo que chupan granos y frutos, causando manchas, deformaciones y granos vanos.",
+      cultural: ["Eliminar malezas hospederas; cultivos trampa."],
+      biologico: ["Telenomus/Trissolcus (parasitoides de huevos), Beauveria."],
+      quimico: ["Piretroides + neonicotinoides, acefato (según registro y umbral)."],
+      prevencion: "Monitorear con paño de golpe en llenado de grano.",
+    },
+    {
+      id: "mosca_fruta", nombre: "Mosca de la fruta", cientifico: "Anastrepha spp., Ceratitis capitata, Bactrocera", tipo: "Insecto",
+      cultivos: ["Mango", "Cítricos", "Frutales en general", "Aguacate", "Manzana/Pera", "Café"], severidad: "alta",
+      sintomas: ["pudricion_fruto", "frutos_perforados", "caida_frutos"],
+      clave: ["larvas dentro del fruto", "gusanos en fruta", "picadura"],
+      descripcion: "Frutos con pequeñas picaduras que se ablandan y caen; al abrirlos hay larvas blancas.",
+      cultural: ["Recoger y enterrar profundo (o embolsar) frutos caídos.", "Cosecha oportuna; embolsado de frutos."],
+      biologico: ["Trampas con atrayente (proteína hidrolizada, vinagre, levadura).", "Diachasmimorpha longicaudata; técnica del insecto estéril (programas oficiales)."],
+      quimico: ["Cebo tóxico: proteína + spinosad o malatión (aplicación por parcheo)."],
+      prevencion: "Trampeo semanal desde el inicio de fructificación.",
+    },
+    {
+      id: "barrenador", nombre: "Barrenadores de tallo", cientifico: "Diatraea saccharalis, Elasmopalpus", tipo: "Insecto (lepidóptero)",
+      cultivos: ["Caña de azúcar", "Maíz", "Arroz", "Trigo/Cebada"], severidad: "media",
+      sintomas: ["orugas", "marchitez", "pudricion_tallo", "enanismo"],
+      clave: ["corazón muerto", "túnel en tallo", "orificio", "barrenador"],
+      descripcion: "Larvas que perforan y hacen túneles en el tallo; el cogollo se seca (corazón muerto) y la planta se quiebra.",
+      cultural: ["Destruir rastrojos; variedades tolerantes."],
+      biologico: ["Trichogramma, Cotesia flavipes, moscas taquínidas."],
+      quimico: ["Diamidas (clorantraniliprol) solo con alta presión."],
+      prevencion: "Liberaciones periódicas de parasitoides.",
+    },
+    {
+      id: "caracoles", nombre: "Caracoles y babosas", cientifico: "Gastropoda", tipo: "Molusco",
+      cultivos: ["Lechuga y hortalizas de hoja", "Fresa", "Crucíferas (repollo, brócoli, col)", "Plantas de interior", "Rosas y ornamentales", T], severidad: "baja",
+      sintomas: ["caracoles", "hojas_comidas"],
+      clave: ["baba", "brillo plateado", "agujeros irregulares", "noche"],
+      descripcion: "Agujeros irregulares en hojas y frutos con rastros brillantes de baba; activos de noche y con humedad.",
+      cultural: ["Recolección nocturna; trampas de cerveza o tablas.", "Barreras de ceniza, cáscara de huevo o cobre."],
+      biologico: ["Nematodo Phasmarhabditis; patos/gallinas en huerto."],
+      quimico: ["Cebos de fosfato férrico (bajo riesgo); evitar metaldehído cerca de mascotas."],
+      prevencion: "Reducir refugios húmedos y malezas.",
+    },
+    {
+      id: "nematodos", nombre: "Nematodos agalladores", cientifico: "Meloidogyne spp.", tipo: "Nematodo",
+      cultivos: [T], severidad: "alta",
+      sintomas: ["agallas_raiz", "enanismo", "marchitez", "amarillamiento"],
+      clave: ["nudos en raíz", "agallas", "rosario", "nematodo"],
+      descripcion: "Raíces con nudos o agallas; plantas enanas, amarillas, que se marchitan en horas de calor.",
+      cultural: ["Rotación con gramíneas o crotalaria/tagetes; solarización.", "Portainjertos o variedades resistentes (gen Mi en tomate).", "Materia orgánica abundante."],
+      biologico: ["Purpureocillium lilacinum, Pochonia chlamydosporia, Bacillus firmus, extracto de neem."],
+      quimico: ["Fluopyram, oxamyl, fluensulfona (según registro)."],
+      prevencion: "Análisis nematológico de suelo antes de sembrar.",
+    },
+    // ---------------- ABIÓTICOS (no plagas, pero se confunden) ----------------
+    {
+      id: "deficiencia_n", nombre: "Deficiencia de nitrógeno", cientifico: "Desorden nutricional", tipo: "Abiótico",
+      cultivos: [T], severidad: "baja",
+      sintomas: ["amarillamiento", "enanismo"],
+      clave: ["hojas viejas amarillas", "pálida", "uniforme", "nutrientes"],
+      descripcion: "Amarillamiento uniforme que empieza en hojas viejas (de abajo) y crecimiento lento. No es contagioso.",
+      cultural: ["Aplicar compost, abonos orgánicos o fertilizante nitrogenado fraccionado.", "Análisis de suelo."],
+      biologico: ["Abonos verdes y leguminosas; bacterias fijadoras (Azospirillum, Rhizobium)."],
+      quimico: ["Urea, nitrato de amonio o de calcio según cultivo y análisis."],
+      prevencion: "Plan de fertilización basado en análisis de suelo.",
+    },
+    {
+      id: "deficiencia_fe_mg", nombre: "Deficiencia de hierro o magnesio", cientifico: "Desorden nutricional", tipo: "Abiótico",
+      cultivos: [T], severidad: "baja",
+      sintomas: ["amarillamiento", "manchas_amarillas"],
+      clave: ["nervaduras verdes", "clorosis intervenal", "hojas nuevas amarillas"],
+      descripcion: "Amarillo entre las nervaduras que quedan verdes: en hojas nuevas suele ser hierro; en hojas viejas, magnesio. No es contagioso.",
+      cultural: ["Revisar pH (suelos alcalinos bloquean hierro); no encharcar."],
+      biologico: ["Materia orgánica, ácidos húmicos."],
+      quimico: ["Quelatos de hierro (Fe-EDDHA); sulfato de magnesio foliar o al suelo."],
+      prevencion: "Análisis de suelo y agua de riego.",
+    },
+    {
+      id: "pudricion_apical", nombre: "Pudrición apical (deficiencia de calcio)", cientifico: "Desorden fisiológico", tipo: "Abiótico",
+      cultivos: ["Tomate", "Pimiento/Ají", "Cucurbitáceas (pepino, melón, calabaza, sandía)"], severidad: "media",
+      sintomas: ["fondo_negro_fruto", "pudricion_fruto"],
+      clave: ["culo negro", "punta negra", "blossom end rot", "calcio"],
+      descripcion: "Mancha oscura, seca y hundida en la punta (fondo) del fruto. Causada por riego irregular y falta de calcio en el fruto. No es contagiosa.",
+      cultural: ["Riego constante y uniforme; acolchado.", "Evitar exceso de nitrógeno amoniacal y de potasio."],
+      biologico: ["No aplica."],
+      quimico: ["Nitrato o cloruro de calcio foliar dirigido a frutos pequeños; encalar si el suelo es ácido."],
+      prevencion: "Mantener humedad del suelo estable.",
+    },
+    {
+      id: "estres_hidrico_sol", nombre: "Estrés hídrico, quemadura de sol o de fertilizante", cientifico: "Factores ambientales", tipo: "Abiótico",
+      cultivos: [T], severidad: "baja",
+      sintomas: ["marchitez", "manchas_hojas", "amarillamiento", "caida_hojas"],
+      clave: ["bordes secos", "quemado", "sequía", "sol directo", "puntas cafés"],
+      descripcion: "Bordes y puntas secas, marchitez al mediodía o manchas blanquecinas en la cara expuesta al sol. No es contagioso.",
+      cultural: ["Ajustar riego; sombra temporal; acolchado.", "Lavar sales del sustrato con riego abundante (plantas en maceta).", "No fertilizar en exceso."],
+      biologico: ["Bioestimulantes (algas, aminoácidos) para recuperación."],
+      quimico: ["No aplica."],
+      prevencion: "Riego regular y aclimatación gradual al sol.",
+    },
+  ];
+
+  const KB = { SINTOMAS, CULTIVOS, PLAGAS };
+  if (typeof module !== "undefined" && module.exports) module.exports = KB;
+  else root.KB = KB;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+  <script>
+// Instrucciones, esquema de respuesta y llamada a Google Gemini (plan gratuito).
+// Se usa igual desde el navegador (clave guardada en el dispositivo) y desde server.js.
+(function (root) {
+  const KB = root.KB || (typeof require !== "undefined" ? require("./kb.js") : null);
+
+  const catalogo = KB.PLAGAS.map(
+    (p) => `- ${p.id}: ${p.nombre} (${p.cientifico}; ${p.tipo}; cultivos: ${p.cultivos.join(", ")})`
+  ).join("\n");
+
+  const SYSTEM = `Eres un agrónomo y fitopatólogo experto en diagnóstico de plagas, enfermedades y desórdenes de cultivos y plantas de todo tipo (hortalizas, granos, frutales, café, cacao, ornamentales, plantas de interior, césped).
+
+Recibirás una foto de la planta, una descripción de síntomas, o ambas. Identifica el problema más probable y hasta 2 alternativas. Responde siempre en español, con lenguaje sencillo para agricultores.
+
+Reglas:
+- Si la imagen no muestra una planta o no se puede diagnosticar, pon es_planta=false o confianza "baja" y explica en siguiente_paso qué foto tomar (hoja por ambos lados, tallo, fruto, planta completa, a buena luz).
+- Considera también causas no infecciosas (nutrición, riego, sol, fertilizante, herbicida).
+- Si el problema coincide con una entrada del catálogo, pon su id en kb_id; si no, deja kb_id vacío y da el tratamiento tú mismo.
+- En tratamiento químico menciona ingredientes activos genéricos, nunca marcas, y recuerda revisar el registro local y la etiqueta.
+- Prioriza manejo integrado: cultural y biológico primero, químico como último recurso.
+- Si es una plaga de reporte obligatorio (p. ej. Foc R4T, HLB, moko), dilo en "alerta"; si no, deja "alerta" vacío.
+
+Catálogo interno de la app:
+${catalogo}`;
+
+  const S = (d) => ({ type: "string", description: d });
+  const LISTA = { type: "array", items: { type: "string" } };
+  const SCHEMA = {
+    type: "object",
+    required: ["es_planta", "cultivo_detectado", "que_observe", "diagnosticos", "siguiente_paso", "alerta"],
+    properties: {
+      es_planta: { type: "boolean" },
+      cultivo_detectado: S("Cultivo o planta reconocido"),
+      que_observe: S("Síntomas que se ven en la foto o se entienden de la descripción"),
+      diagnosticos: {
+        type: "array",
+        items: {
+          type: "object",
+          required: ["nombre", "cientifico", "tipo", "confianza", "kb_id", "por_que", "cultural", "biologico", "quimico", "prevencion"],
+          properties: {
+            nombre: S("Nombre común"),
+            cientifico: S("Nombre científico"),
+            tipo: S("Hongo, Bacteria, Virus, Insecto, Ácaro, Nematodo, Abiótico..."),
+            confianza: { type: "string", enum: ["alta", "media", "baja"] },
+            kb_id: S("id del catálogo o vacío"),
+            por_que: S("Por qué se llega a este diagnóstico"),
+            cultural: LISTA, biologico: LISTA, quimico: LISTA,
+            prevencion: S("Cómo evitar que vuelva"),
+          },
+        },
+      },
+      siguiente_paso: S("Qué hacer ahora o qué foto adicional tomar"),
+      alerta: S("Alerta sanitaria o vacío"),
+    },
+  };
+
+  const MODELO_GEMINI = "gemini-flash-latest";
+  const API = "https://generativelanguage.googleapis.com/v1beta";
+
+  function userText(cultivo, descripcion) {
+    return `Cultivo o planta indicado por el usuario: ${cultivo || "no indicado"}\nSíntomas descritos: ${descripcion || "ninguno"}\n\nDiagnostica el problema.`;
+  }
+
+  function parseDataUrl(image) {
+    const m = /^data:(image\/(?:jpeg|png|webp|gif|heic|heif));base64,(.+)$/.exec(image || "");
+    if (!m) throw Object.assign(new Error("Formato de imagen no soportado"), { status: 400 });
+    return { mime: m[1], data: m[2] };
+  }
+
+  async function llamarGemini({ image, cultivo, descripcion }, apiKey, modelo, fetchFn) {
+    const f = fetchFn || fetch;
+    const parts = [];
+    if (image) { const { mime, data } = parseDataUrl(image); parts.push({ inline_data: { mime_type: mime, data } }); }
+    parts.push({ text: userText(cultivo, descripcion) });
+    const body = {
+      system_instruction: { parts: [{ text: SYSTEM }] },
+      contents: [{ role: "user", parts }],
+      generationConfig: { temperature: 0.2, responseMimeType: "application/json", responseSchema: SCHEMA },
+    };
+    const r = await f(`${API}/models/${modelo || MODELO_GEMINI}:generateContent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+      body: JSON.stringify(body),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      const razon = data?.error?.details?.find((d) => d.reason)?.reason || data?.error?.status;
+      let msg = "Error del servicio de IA gratuito (Gemini).";
+      if (razon === "API_KEY_INVALID") msg = "La clave de Gemini no es válida. Revísala.";
+      else if (r.status === 429) msg = "Se alcanzó el límite gratuito de consultas por ahora. Espera un minuto (o hasta mañana si es el límite diario).";
+      else if (r.status === 404) msg = `El modelo "${modelo || MODELO_GEMINI}" no está disponible para esta clave.`;
+      throw Object.assign(new Error(msg), { status: r.status === 429 ? 429 : 502, detalle: data?.error?.message });
+    }
+    const cand = data.candidates?.[0];
+    const text = (cand?.content?.parts || []).map((p) => p.text || "").join("");
+    if (!text) throw Object.assign(new Error("La IA no devolvió un diagnóstico (bloqueado: " + (cand?.finishReason || data.promptFeedback?.blockReason || "desconocido") + ")."), { status: 422 });
+    return JSON.parse(text);
+  }
+
+  const IA = { SYSTEM, SCHEMA, MODELO_GEMINI, userText, parseDataUrl, llamarGemini };
+  if (typeof module !== "undefined" && module.exports) module.exports = IA;
+  else root.IA = IA;
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+  <script>
+/* FitoDoc: lógica de la app (sin dependencias). */
+(function () {
+  const { SINTOMAS, CULTIVOS, PLAGAS } = window.KB;
+  const $ = (s, el = document) => el.querySelector(s);
+  const byId = Object.fromEntries(PLAGAS.map((p) => [p.id, p]));
+  const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  let iaActiva = false;
+  let fotoData = null;
+
+  // --------- Pestañas ---------
+  document.querySelectorAll(".tabs button").forEach((b) =>
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".tabs button").forEach((x) => x.setAttribute("aria-selected", x === b));
+      document.querySelectorAll(".panel").forEach((p) => (p.hidden = p.id !== "tab-" + b.dataset.tab));
+      if (b.dataset.tab === "historial") renderHistorial();
+      try { localStorage.setItem("fitodoc.tab", b.dataset.tab); } catch (e) {}
+    })
+  );
+  try {
+    const t = localStorage.getItem("fitodoc.tab");
+    if (t) $(`.tabs button[data-tab="${t}"]`)?.click();
+  } catch (e) {}
+
+  // --------- Selectores de cultivo ---------
+  document.querySelectorAll(".cultivo-select").forEach((sel) => {
+    sel.innerHTML = `<option value="">Cualquiera / no sé</option>` + CULTIVOS.map((c) => `<option>${c}</option>`).join("");
+  });
+
+  // --------- Estado de la IA ---------
+  // "servidor": el servidor tiene la clave. "local": clave gratuita de Gemini guardada en este dispositivo.
+  let iaServidor = false;
+  const leerClave = () => { try { return localStorage.getItem("fitodoc.gemini") || ""; } catch (e) { return ""; } };
+  function actualizarIA() {
+    const local = !iaServidor && !!leerClave();
+    iaActiva = iaServidor || local;
+    const badge = $("#ia-badge");
+    badge.textContent = iaServidor ? "IA activa" : local ? "IA gratuita activa" : "Modo sin conexión";
+    badge.classList.toggle("on", iaActiva);
+    $("#sint-ia-btn").hidden = !iaActiva;
+    $("#ajustes-ia").hidden = iaServidor;
+    $("#ajustes-titulo").textContent = local ? "⚙️ IA gratuita (Gemini) conectada" : "⚙️ Activar IA gratuita para fotos";
+    if (!iaActiva) $("#ajustes-ia").open = true;
+    const aviso = $("#foto-aviso");
+    aviso.hidden = iaActiva;
+    aviso.textContent = "Para diagnosticar por foto, activa la IA gratuita arriba (toma 1 minuto). Mientras tanto, la pestaña Síntomas funciona sin internet.";
+    $("#foto-btn").disabled = !(iaActiva && fotoData);
+  }
+  $("#gemini-key").value = leerClave();
+  $("#gemini-guardar").addEventListener("click", () => {
+    const k = $("#gemini-key").value.trim();
+    try { k ? localStorage.setItem("fitodoc.gemini", k) : localStorage.removeItem("fitodoc.gemini"); } catch (e) {}
+    actualizarIA();
+    if (k) $("#ajustes-ia").open = false;
+  });
+  $("#gemini-borrar").addEventListener("click", () => {
+    $("#gemini-key").value = "";
+    try { localStorage.removeItem("fitodoc.gemini"); } catch (e) {}
+    actualizarIA();
+  });
+  fetch("api/status")
+    .then((r) => (r.ok ? r.json() : { ia: false }))
+    .catch(() => ({ ia: false }))
+    .then((s) => { iaServidor = !!s.ia; actualizarIA(); });
+
+  // --------- Render de diagnósticos ---------
+  function li(arr) {
+    return (arr && arr.length ? arr : ["Sin recomendaciones específicas."]).map((t) => {
+      const e = document.createElement("li"); e.textContent = t; return e;
+    });
+  }
+  function tarjeta(d) {
+    const n = $("#tpl-diag").content.cloneNode(true);
+    $(".d-nombre", n).textContent = d.nombre;
+    $(".d-cient", n).textContent = d.cientifico || "";
+    $(".d-tipo", n).textContent = [d.tipo, d.cultivos ? "Cultivos: " + d.cultivos.map((c) => (c === "todos" ? "muchos cultivos" : c)).join(", ") : ""].filter(Boolean).join(" · ");
+    $(".d-desc", n).textContent = d.descripcion || d.por_que || "";
+    const conf = $(".conf", n);
+    if (d.confianza) { conf.textContent = "Confianza " + d.confianza; conf.dataset.nivel = d.confianza; } else conf.remove();
+    $(".d-cultural", n).append(...li(d.cultural));
+    $(".d-bio", n).append(...li(d.biologico));
+    $(".d-quim", n).append(...li(d.quimico));
+    $(".d-prev", n).textContent = d.prevencion ? "Prevención: " + d.prevencion : "";
+    if (d.severidad === "alta") $(".d-tipo", n).textContent += " · ⚠️ Severidad alta";
+    return n;
+  }
+
+  function renderIA(cont, r) {
+    cont.innerHTML = "";
+    if (r.alerta) {
+      const a = document.createElement("p"); a.className = "alerta"; a.textContent = "⚠️ " + r.alerta; cont.append(a);
+    }
+    if (!r.es_planta) {
+      const p = document.createElement("p"); p.className = "aviso";
+      p.textContent = r.siguiente_paso || "No se reconoce una planta en la imagen. Intenta con otra foto.";
+      cont.append(p); return;
+    }
+    const obs = document.createElement("p"); obs.className = "obs";
+    obs.textContent = (r.cultivo_detectado ? `Cultivo: ${r.cultivo_detectado}. ` : "") + (r.que_observe || "");
+    cont.append(obs);
+    r.diagnosticos.forEach((d, i) => {
+      const kb = d.kb_id && byId[d.kb_id];
+      const t = tarjeta({ ...d, descripcion: d.por_que, severidad: kb?.severidad });
+      if (i > 0) t.querySelector("details").open = false;
+      const h = document.createElement("h2"); h.textContent = i === 0 ? "Diagnóstico más probable" : "Alternativa " + i;
+      cont.append(h, t);
+    });
+    if (r.siguiente_paso) { const s = document.createElement("p"); s.className = "obs"; s.textContent = "Siguiente paso: " + r.siguiente_paso; cont.append(s); }
+  }
+
+  async function consultarIA({ image, cultivo, descripcion }, cont, btn) {
+    btn.disabled = true;
+    const txt = btn.textContent; btn.textContent = "Analizando…";
+    cont.innerHTML = `<p class="cargando">Analizando con IA, esto puede tardar unos segundos…</p>`;
+    try {
+      let data;
+      if (iaServidor) {
+        const r = await fetch("api/diagnose", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image, cultivo, descripcion }),
+        });
+        data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.error || "No se pudo completar el diagnóstico.");
+      } else {
+        data = await window.IA.llamarGemini({ image, cultivo, descripcion }, leerClave()).catch((e) => {
+          throw new Error(e instanceof TypeError ? "No hay conexión con el servicio de IA. Revisa tu internet." : e.message);
+        });
+      }
+      renderIA(cont, data);
+      guardarHistorial({ modo: image ? "foto" : "síntomas (IA)", cultivo, descripcion, thumb: image ? await miniatura(image) : null, resultado: data });
+    } catch (e) {
+      cont.innerHTML = ""; const p = document.createElement("p"); p.className = "aviso"; p.textContent = e.message; cont.append(p);
+    } finally { btn.disabled = false; btn.textContent = txt; }
+  }
+
+  // --------- Foto ---------
+  $("#foto-input").addEventListener("change", async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    fotoData = await reducir(f, 1280);
+    const img = $("#foto-preview"); img.src = fotoData; img.hidden = false; $("#drop-text").hidden = true;
+    actualizarIA();
+  });
+  $("#foto-btn").addEventListener("click", () =>
+    consultarIA({ image: fotoData, cultivo: $("#foto-cultivo").value, descripcion: $("#foto-notas").value.trim() }, $("#foto-result"), $("#foto-btn"))
+  );
+
+  function reducir(file, max) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(img.src);
+        resolve(c.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+  async function miniatura(dataUrl) {
+    const blob = await (await fetch(dataUrl)).blob();
+    return reducir(blob, 160);
+  }
+
+  // --------- Síntomas (motor local) ---------
+  const GRUPOS = {
+    "Hojas": ["manchas_hojas", "manchas_amarillas", "manchas_anillos", "manchas_aceitosas", "halo_amarillo", "polvo_blanco", "pustulas_oxido", "moho_gris", "moho_enves", "amarillamiento", "mosaico", "hojas_enrolladas", "hojas_plateadas", "galerias", "hojas_comidas", "rayas_hojas", "fumagina", "melaza", "telaranas", "caida_hojas"],
+    "Planta, tallo y raíz": ["marchitez", "enanismo", "volcamiento", "pudricion_tallo", "vasos_oscuros", "cancro", "exudado", "pudricion_raiz", "agallas_raiz"],
+    "Bichos que se ven": ["insectos_pequenos", "moscas_blancas", "orugas", "escamas", "escarabajos", "caracoles"],
+    "Frutos, flores y granos": ["pudricion_fruto", "manchas_fruto", "fondo_negro_fruto", "frutos_perforados", "caida_frutos", "mazorca_hongo"],
+  };
+  $("#sint-grupos").innerHTML = Object.entries(GRUPOS).map(([g, ids]) =>
+    `<fieldset><legend>${g}</legend>${ids.map((id) =>
+      `<label class="chip"><input type="checkbox" value="${id}"><span>${SINTOMAS[id]}</span></label>`).join("")}</fieldset>`
+  ).join("");
+
+  function puntuar(cultivo, marcados, texto) {
+    const palabras = norm(texto).split(/[^a-zñ]+/).filter((w) => w.length > 3);
+    const txt = norm(texto);
+    return PLAGAS.map((p) => {
+      let s = 0;
+      const coinc = p.sintomas.filter((x) => marcados.includes(x));
+      s += coinc.length * 3;
+      if (marcados.length) s -= (marcados.length - coinc.length) * 0.5;
+      if (cultivo) {
+        if (p.cultivos.includes(cultivo)) s += 3;
+        else if (p.cultivos.includes("todos")) s += 0.5;
+        else s -= 4;
+      }
+      if (txt) {
+        p.clave.forEach((k) => { if (txt.includes(norm(k))) s += 3; });
+        const bolsa = norm([p.nombre, p.descripcion, p.clave.join(" "), p.sintomas.map((x) => SINTOMAS[x]).join(" ")].join(" "));
+        palabras.forEach((w) => { if (bolsa.includes(w)) s += 0.7; });
+        if (txt.includes(norm(p.nombre.split(" (")[0]))) s += 5;
+      }
+      return { p, s, coinc };
+    }).filter((x) => x.s > 1).sort((a, b) => b.s - a.s).slice(0, 4)
+      .filter((x, _, arr) => x.s >= arr[0].s * 0.4);
+  }
+
+  $("#sint-btn").addEventListener("click", () => {
+    const cultivo = $("#sint-cultivo").value;
+    const marcados = [...document.querySelectorAll("#sint-grupos input:checked")].map((i) => i.value);
+    const texto = $("#sint-texto").value;
+    const cont = $("#sint-result");
+    cont.innerHTML = "";
+    if (!marcados.length && !texto.trim()) {
+      cont.innerHTML = `<p class="aviso">Marca al menos un síntoma o escribe una descripción.</p>`; return;
+    }
+    const res = puntuar(cultivo, marcados, texto);
+    if (!res.length) {
+      cont.innerHTML = `<p class="aviso">No encontré coincidencias claras. Prueba marcando más síntomas${iaActiva ? " o consulta a la IA" : ""}.</p>`; return;
+    }
+    const max = res[0].s;
+    res.forEach(({ p, s }, i) => {
+      const h = document.createElement("h2");
+      h.textContent = i === 0 ? "Causa más probable" : "También podría ser";
+      const conf = s >= max * 0.9 && s >= 8 ? "alta" : s >= 5 ? "media" : "baja";
+      const t = tarjeta({ ...p, confianza: i === 0 ? conf : s >= 5 ? "media" : "baja" });
+      if (i > 0) t.querySelector("details").open = false;
+      cont.append(h, t);
+    });
+    guardarHistorial({ modo: "síntomas", cultivo, descripcion: [marcados.map((m) => SINTOMAS[m]).join(", "), texto].filter(Boolean).join(". "), resultado: { local: res.map((r) => r.p.id) } });
+    cont.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  $("#sint-ia-btn").addEventListener("click", () => {
+    const marcados = [...document.querySelectorAll("#sint-grupos input:checked")].map((i) => SINTOMAS[i.value]);
+    const descripcion = [marcados.join(", "), $("#sint-texto").value.trim()].filter(Boolean).join(". ");
+    if (!descripcion) { $("#sint-result").innerHTML = `<p class="aviso">Marca síntomas o escribe una descripción.</p>`; return; }
+    consultarIA({ cultivo: $("#sint-cultivo").value, descripcion }, $("#sint-result"), $("#sint-ia-btn"));
+  });
+
+  // --------- Biblioteca ---------
+  function renderBiblioteca() {
+    const q = norm($("#bib-buscar").value);
+    const cont = $("#bib-lista"); cont.innerHTML = "";
+    PLAGAS.filter((p) => !q || norm([p.nombre, p.cientifico, p.tipo, p.cultivos.join(" "), p.clave.join(" ")].join(" ")).includes(q))
+      .sort((a, b) => a.nombre.localeCompare(b.nombre, "es"))
+      .forEach((p) => {
+        const d = document.createElement("details"); d.className = "bib";
+        const s = document.createElement("summary");
+        s.innerHTML = `<strong></strong><small></small>`;
+        s.querySelector("strong").textContent = p.nombre;
+        s.querySelector("small").textContent = p.tipo;
+        d.append(s, tarjeta(p));
+        cont.append(d);
+      });
+    if (!cont.children.length) cont.innerHTML = `<p class="hint">Sin resultados.</p>`;
+  }
+  $("#bib-buscar").addEventListener("input", renderBiblioteca);
+  renderBiblioteca();
+
+  // --------- Historial (localStorage) ---------
+  function leerHist() { try { return JSON.parse(localStorage.getItem("fitodoc.hist") || "[]"); } catch (e) { return []; } }
+  function guardarHistorial(item) {
+    try {
+      const h = [{ ...item, fecha: new Date().toISOString() }, ...leerHist()].slice(0, 30);
+      localStorage.setItem("fitodoc.hist", JSON.stringify(h));
+    } catch (e) {}
+  }
+  function renderHistorial() {
+    const cont = $("#hist-lista"); const h = leerHist();
+    cont.innerHTML = h.length ? "" : `<p class="hint">Aún no hay diagnósticos.</p>`;
+    h.forEach((it) => {
+      const nombre = it.resultado?.diagnosticos?.[0]?.nombre || (it.resultado?.local?.[0] && byId[it.resultado.local[0]]?.nombre) || "Sin diagnóstico";
+      const row = document.createElement("div"); row.className = "hist";
+      if (it.thumb) { const im = document.createElement("img"); im.src = it.thumb; im.alt = ""; row.append(im); }
+      const tx = document.createElement("div");
+      tx.innerHTML = `<strong></strong><small></small>`;
+      tx.querySelector("strong").textContent = nombre;
+      tx.querySelector("small").textContent = `${new Date(it.fecha).toLocaleString("es")} · ${it.modo}${it.cultivo ? " · " + it.cultivo : ""}`;
+      row.append(tx); cont.append(row);
+    });
+  }
+
+  // --------- PWA ---------
+  // Versión de un solo archivo: sin cache offline.
+})();
+</script>
 </body>
 </html>
